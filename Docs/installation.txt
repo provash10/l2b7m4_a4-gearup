@@ -101,3 +101,19 @@ express docs for setup
 
 npm run build
 ----------------
+
+7. Instantiate Prisma Client  >>> lib/prisma.ts
+
+src>>>lib/prisma.ts  >>> copy and paste
+
+create prisma client  model 
+
+npx prisma migrate dev 
+npx prisma generate >>> create generate folder ok 
+
+8. Write your first query >>>> script.ts >>> prisma connect
+
+
+
+====.env-->>>config>index.ts ok
+
