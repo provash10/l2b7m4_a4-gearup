@@ -1,0 +1,94 @@
+https://www.prisma.io/docs/prisma-postgres/quickstart/prisma-orm
+
+1. git init
+
+2. .gitignore
+
+3. Prisma -->>> Docs---prisma orm---QuickStar--->>>Prisma Postgres
+1. Create a new project
+
+npm init
+npm install typescript tsx @types/node --save-dev
+npx tsc --init
+
+package name - gearup-backend
+version - 0.0.1
+
+entrypoint - server.ts
+type - module
+
+yes - y ok
+
+2. Install required dependencies
+Install the packages needed for this quickstart:
+
+bun
+pnpm
+yarn
+npm
+
+npm install prisma @types/pg --save-dev
+npm install @prisma/client @prisma/adapter-pg pg dotenv
+
+3. Configure ESM support
+remove all >>> tsconfig.json
+create own
+
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "target": "ES2023",
+    "types": ["node"],
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    "noUncheckedIndexedAccess": true,
+    "strict": true,
+    "isolatedModules": true,
+    "noUncheckedSideEffectImports": true,
+    "moduleDetection": "force",
+    "skipLibCheck": true
+  },
+  // "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
+
+4. Initialize Prisma ORM
+npx prisma
+npx prisma init --output ../generated/prisma
+
+for prisma.config.ts
+*****create root >>> src folder > a. server.ts b. app.ts
+
+Create a Prisma Postgres database and replace the generated DATABASE_URL in your .env file with the postgres://... connection string from the CLI output:
+
+npx create-db
+
+login >>> https://www.prisma.io/postgres 
+create new DB ---Gear Up 
+--> Skip Deploy -skip must
+---> Dashboard -Connect to your database
+click ---> Open connect setup --> copy the connection string
+postgres://2d3655884d3b2808e95f5229dcb5e4df789fad2cf83a1aa691effe788f206705:sk_7MwbdjKryBjbBgaV-OACx@pooled.db.prisma.io:5432/postgres?sslmode=require
+
+set .env =ok
+
+5. Define your data model >>>after
+
+*****express,bcryptjs,cors,cookie-parser,http-status,jwt 
+DT and TS
+TS ok
+
+DS -- npm i @types/express
+npm i express  and  npm i @types/express --save-dev
+
+npm i @types/cors --save-dev
+npm i cookie-parser 
+npm i @types/cookie-parser --save-dev
+npm i @types/jsonwebtoken --save-dev
+
+---------------
+express docs for setup
+
