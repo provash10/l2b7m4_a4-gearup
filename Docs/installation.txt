@@ -115,5 +115,23 @@ npx prisma generate >>> create generate folder ok
 
 
 
-====.env-->>>config>index.ts ok
+====.env-->>>config>index.ts ok 
+    middlware ok
+
+ Prisma Model >>> data model >>> 
+ prisma orm >>> data model >>> multi schema
+ >>>  Schema location >>>Prisma Schema location >>> ok
+
+ Multi-file Prisma schema
+
+ prisma/
+├── migrations
+├── models
+│   ├── posts.prisma
+│   ├── users.prisma
+│   └── ... other `.prisma` files
+└── schema.prisma
+
+Prisma>schema>> prisma all file
+
 
