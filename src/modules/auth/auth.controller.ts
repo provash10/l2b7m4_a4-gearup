@@ -1,0 +1,35 @@
+import { Request, Response } from "express";
+import { prisma } from "../../lib/prisma";
+import bcrypt from "bcryptjs";
+import config from "../../config";
+import httpStatus from "http-status";
+import { authService } from "./auth.service";
+
+const registerUser = async (req: Request, res: Response) => {
+  try {
+    const payload = req.body;
+  // console.log(payload);
+ const result = await authService.registerUserIntoDB(payload)
+
+  
+  res.status(httpStatus.CREATED).json({
+    success: true,
+    statusCode: httpStatus.CREATED,
+    message: "User Registered Successfully",
+    data: result,
+  });
+  } catch (error) {
+    console.log(error);
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+        success : false,
+        statusCode : httpStatus.INTERNAL_SERVER_ERROR,
+        message: "Faild To Register User",
+        error:(error as Error).message
+
+    })
+  }
+}
+
+export const userController ={
+    registerUser
+}
