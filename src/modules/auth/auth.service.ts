@@ -4,6 +4,8 @@ import config from "../../config";
 import { ILoginUser, IRegisterUser } from "./auth.interface";
 import httpStatus from "http-status";
 import { AppError } from "../../errors/appError";
+import jwt, { SignOptions } from "jsonwebtoken";
+import { jwtUtils } from "../../utils/jwt";
 
 
 const registerUserIntoDB = async(payload : IRegisterUser)=>{
@@ -57,6 +59,46 @@ const loginUserFromDB = async(payload : ILoginUser) =>{
   if (!isPasswordMatched) {
     throw new AppError(httpStatus.UNAUTHORIZED, "Password is incorrect");
   }
+
+  const jwtPayload ={
+    id : user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role
+  }
+  // const accessToken = jwt.sign(jwtPayload, config.jwt_access_secret,
+  //   {
+  //   expiresIn : config.jwt_access_expires_in
+  //   } as SignOptions
+  // )
+
+  const accessToken = jwtUtils.createToken(
+    jwtPayload,
+    config.jwt_access_secret,
+    config.jwt_access_expires_in as SignOptions
+
+  )
+
+  // const refreshToken = jwt.sign(jwtPayload, config.jwt_refresh_secret,
+  //   {
+  //   expiresIn : config.jwt_refresh_expires_in
+  //   } as SignOptions
+  //  )
+
+  const refreshToken = jwtUtils.createToken(
+    jwtPayload,
+    config.jwt_access_secret,
+    config.jwt_access_expires_in as SignOptions
+
+  )
+
+  //vercel ms package
+
+  // return user;
+   return {
+    accessToken,
+    refreshToken
+   }
 }
 
 export const authService={
