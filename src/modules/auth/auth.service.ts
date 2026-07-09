@@ -3,9 +3,10 @@ import { prisma } from "../../lib/prisma";
 import config from "../../config";
 import { ILoginUser, IRegisterUser } from "./auth.interface";
 import httpStatus from "http-status";
-import { AppError } from "../../errors/appError";
+
 import jwt, { SignOptions } from "jsonwebtoken";
 import { jwtUtils } from "../../utils/jwt";
+import { AppError } from "../../errors/AppError";
 
 
 const registerUserIntoDB = async(payload : IRegisterUser)=>{
@@ -101,7 +102,12 @@ const loginUserFromDB = async(payload : ILoginUser) =>{
    }
 }
 
+const getMeFromDB= async()=>{
+
+}
+
 export const authService={
     registerUserIntoDB,
-    loginUserFromDB
+    loginUserFromDB,
+    getMeFromDB
 }
