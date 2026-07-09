@@ -8,11 +8,10 @@ import jwt, { SignOptions } from "jsonwebtoken";
 import { jwtUtils } from "../../utils/jwt";
 import { AppError } from "../../errors/AppError";
 
+const registerUserIntoDB = async (payload: IRegisterUser) => {
+  const { name, email, password, role, profilePhoto } = payload;
 
-const registerUserIntoDB = async(payload : IRegisterUser)=>{
-     const { name, email, password, role, profilePhoto } = payload;
-     
-    const isUserExist = await prisma.user.findUnique({
+  const isUserExist = await prisma.user.findUnique({
     where: { email },
   });
 
@@ -39,20 +38,20 @@ const registerUserIntoDB = async(payload : IRegisterUser)=>{
   });
 
   return createdUser;
-}
+};
 
-const loginUserFromDB = async(payload : ILoginUser) =>{
-  const {email, password} = payload;
+const loginUserFromDB = async (payload: ILoginUser) => {
+  const { email, password } = payload;
 
   const user = await prisma.user.findUniqueOrThrow({
-    where: {email},
+    where: { email },
   });
 
-  if(user.activeStatus=== "BLOCKED"){
+  if (user.activeStatus === "BLOCKED") {
     throw new AppError(
       httpStatus.FORBIDDEN,
       "Your account has been blocked. Please contact support"
-    )
+    );
   }
 
   const isPasswordMatched = await bcrypt.compare(password, user.password);
@@ -61,12 +60,12 @@ const loginUserFromDB = async(payload : ILoginUser) =>{
     throw new AppError(httpStatus.UNAUTHORIZED, "Password is incorrect");
   }
 
-  const jwtPayload ={
-    id : user.id,
+  const jwtPayload = {
+    id: user.id,
     name: user.name,
     email: user.email,
-    role: user.role
-  }
+    role: user.role,
+  };
   // const accessToken = jwt.sign(jwtPayload, config.jwt_access_secret,
   //   {
   //   expiresIn : config.jwt_access_expires_in
@@ -77,8 +76,7 @@ const loginUserFromDB = async(payload : ILoginUser) =>{
     jwtPayload,
     config.jwt_access_secret,
     config.jwt_access_expires_in as SignOptions
-
-  )
+  );
 
   // const refreshToken = jwt.sign(jwtPayload, config.jwt_refresh_secret,
   //   {
@@ -90,24 +88,33 @@ const loginUserFromDB = async(payload : ILoginUser) =>{
     jwtPayload,
     config.jwt_access_secret,
     config.jwt_access_expires_in as SignOptions
-
-  )
+  );
 
   //vercel ms package
 
   // return user;
-   return {
+  return {
     accessToken,
-    refreshToken
-   }
-}
+    refreshToken,
+  };
+};
 
-const getMeFromDB= async()=>{
+const getMeFromDB = async (userId: string) => {
+  if (!userId) {
+    throw new AppError(httpStatus.UNAUTHORIZED, "User ID is missing");
+  }
 
-}
+  const user = await prisma.user.findUniqueOrThrow({
+    where: { id: userId },
+    omit: {
+      password: true,
+    },
+  });
+  return user;
+};
 
-export const authService={
-    registerUserIntoDB,
-    loginUserFromDB,
-    getMeFromDB
-}
+export const authService = {
+  registerUserIntoDB,
+  loginUserFromDB,
+  getMeFromDB,
+};
