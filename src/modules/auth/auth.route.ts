@@ -1,15 +1,31 @@
-import { Request, Response, Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 import { prisma } from "../../lib/prisma";
 import bcrypt from "bcryptjs";
 import config from "../../config";
 import httpStatus from "http-status";
-import { userController } from "./auth.controller";
-
+import { AppError } from "../../errors/AppError";
+import { jwtUtils } from "../../utils/jwt";
+import { Role } from "../../../generated/prisma/enums";
+import { auth } from "../../middlewares/auth";
+import { authController } from "./auth.controller";
 
 const router = Router();
 
-router.post("/register",userController.registerUser)
-router.post("/login",userController.loginUser)
-router.get("/me",userController.getMe)
+declare global {
+  namespace Express {
+    interface Request {
+      user?: {
+        email: string;
+        name: string;
+        id: string;
+        role: Role;
+      };
+    }
+  }
+}
+
+router.post("/register", authController.registerUser);
+router.post("/login", authController.loginUser);
+router.get("/me", auth(Role.ADMIN, Role.CUSTOMER, Role.PROVIDER), authController.getMe);
 
 export const authRoutes = router;

@@ -99,11 +99,22 @@ const loginUserFromDB = async (payload: ILoginUser) => {
   };
 };
 
-const getMeFromDB = async (userId: string) => {
-  if (!userId) {
-    throw new AppError(httpStatus.UNAUTHORIZED, "User ID is missing");
-  }
+// const getMeFromDB = async (userId: string) => {
+//   if (!userId) {
+//     throw new AppError(httpStatus.UNAUTHORIZED, "User ID is missing");
+//   }
 
+//   const user = await prisma.user.findUniqueOrThrow({
+//     where: { id: userId },
+//     omit: {
+//       password: true,
+//     },
+//   });
+//   return user;
+// };
+
+
+const getMeFromDB = async (userId: string) => {
   const user = await prisma.user.findUniqueOrThrow({
     where: { id: userId },
     omit: {

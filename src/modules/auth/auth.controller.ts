@@ -93,26 +93,29 @@ const loginUser = catchAsync(
 //   res.send("Get Me")
 // })
 
+// const getMe = catchAsync(
+//   async (req: Request, res: Response, next: NextFunction) => {
+//     const userId = req.user?.id;
+
+//     if (!userId) {
+//       throw new AppError(httpStatus.UNAUTHORIZED, "Please login first");
+//     }
+
+//     const result = await authService.getMeFromDB(userId);
+
+//     sendResponse(res, {
+//       success: true,
+//       statusCode: httpStatus.OK,
+//       message: "User profile retrieved successfully",
+//       data: result,
+//     });
+//   }
+// );
+
 const getMe = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const accessToken = req.cookies?.accessToken;
-
-    if (!accessToken) {
-      throw new AppError(httpStatus.UNAUTHORIZED, "Please login first");
-    }
-
-    const verifiedToken = jwtUtils.verifyToken(
-      accessToken,
-      config.jwt_access_secret
-    ) as { id?: string };
-
-    const userId = verifiedToken.id;
-
-    if (!userId) {
-      throw new AppError(httpStatus.UNAUTHORIZED, "Invalid token payload");
-    }
-
-    const result = await authService.getMeFromDB(userId);
+    const userId = req.user?.id;
+    const result = await authService.getMeFromDB(userId as string);
 
     sendResponse(res, {
       success: true,
@@ -123,7 +126,7 @@ const getMe = catchAsync(
   }
 );
 
-export const userController = {
+export const authController = {
   registerUser,
   loginUser,
   getMe,
