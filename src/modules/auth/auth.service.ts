@@ -4,7 +4,7 @@ import config from "../../config";
 import { ILoginUser, IRegisterUser } from "./auth.interface";
 import httpStatus from "http-status";
 
-import jwt, { SignOptions } from "jsonwebtoken";
+import jwt, { JwtPayload, SignOptions } from "jsonwebtoken";
 import { jwtUtils } from "../../utils/jwt";
 import { AppError } from "../../errors/AppError";
 
@@ -86,8 +86,8 @@ const loginUserFromDB = async (payload: ILoginUser) => {
 
   const refreshToken = jwtUtils.createToken(
     jwtPayload,
-    config.jwt_access_secret,
-    config.jwt_access_expires_in as SignOptions
+    config.jwt_refresh_secret,
+    config.jwt_refresh_expires_in as SignOptions
   );
 
   //vercel ms package
@@ -124,8 +124,48 @@ const getMeFromDB = async (userId: string) => {
   return user;
 };
 
+const refreshTokenFromDB = async (token: string) => {
+  let verifiedRefreshToken: JwtPayload;
+  try {
+    verifiedRefreshToken = jwtUtils.verifyToken(
+      token,
+      config.jwt_refresh_secret
+    ) as JwtPayload;
+  } catch (error: any) {
+    throw new AppError(httpStatus.UNAUTHORIZED, "Invalid refresh token");
+  }
+
+  const { id } = verifiedRefreshToken;
+
+  const user = await prisma.user.findFirstOrThrow({
+    where: {
+      id,
+    },
+  });
+
+  if (user.activeStatus === "BLOCKED") {
+    throw new AppError(httpStatus.FORBIDDEN, "User is Blocked");
+  }
+
+  const jwtPayload = {
+    id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+  };
+
+  const accessToken = jwtUtils.createToken(
+    jwtPayload,
+    config.jwt_access_secret,
+    config.jwt_access_expires_in as SignOptions
+  );
+
+  return { accessToken };
+};
+
 export const authService = {
   registerUserIntoDB,
   loginUserFromDB,
   getMeFromDB,
+  refreshTokenFromDB
 };

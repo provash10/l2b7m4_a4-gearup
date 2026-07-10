@@ -27,5 +27,6 @@ declare global {
 router.post("/register", authController.registerUser);
 router.post("/login", authController.loginUser);
 router.get("/me", auth(Role.ADMIN, Role.CUSTOMER, Role.PROVIDER), authController.getMe);
+router.post("/refresh-token", authController.refreshToken);
 
 export const authRoutes = router;
