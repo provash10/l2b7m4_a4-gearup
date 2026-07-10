@@ -6,7 +6,7 @@ import { sendResponse } from "../../utils/sendResponse";
 
 const getAllUsers = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const result = await userService.getAllUsers();
+    const result = await userService.getAllUsersIntoDB();
 
     sendResponse(res, {
       success: true,
@@ -21,7 +21,7 @@ const updateUserStatus = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     const { activeStatus } = req.body;
-    const result = await userService.updateUserStatus(id as string, activeStatus);
+    const result = await userService.updateUserStatusIntoDB(id as string, activeStatus);
 
     sendResponse(res, {
       success: true,
@@ -41,7 +41,7 @@ const updateMyProfile = catchAsync(
     const { name, profilePhoto } = req.body;
 
     // update
-    const result = await userService.updateMyProfile(userId as string, {
+    const result = await userService.updateMyProfileIntoDB(userId as string, {
       name,
       profilePhoto,
     });

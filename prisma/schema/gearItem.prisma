@@ -8,8 +8,14 @@ model GearItem {
   isAvailable  Boolean     @default(true)
   categoryId   String
   providerId   String
+  
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
 
+
+  provider     User        @relation(fields: [providerId], references: [id])
+  category     Category    @relation(fields: [categoryId], references: [id])
+  reviews      Review[]
+  
   @@map("gear_items")
 }

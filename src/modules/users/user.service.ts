@@ -1,7 +1,7 @@
 import { prisma } from "../../lib/prisma";
 import { ActiveStatus } from "../../../generated/prisma/enums";
 
-const getAllUsers = async () => {
+const getAllUsersIntoDB = async () => {
   const result = await prisma.user.findMany({
     omit: {
       password: true,
@@ -10,7 +10,7 @@ const getAllUsers = async () => {
   return result;
 };
 
-const updateUserStatus = async (userId: string, activeStatus: ActiveStatus) => {
+const updateUserStatusIntoDB = async (userId: string, activeStatus: ActiveStatus) => {
   const result = await prisma.user.update({
     where: { id: userId },
     data: { activeStatus },
@@ -22,7 +22,7 @@ const updateUserStatus = async (userId: string, activeStatus: ActiveStatus) => {
 };
 
 //update profile
-const updateMyProfile = async (
+const updateMyProfileIntoDB = async (
   userId: string,
   payload: { name?: string; profilePhoto?: string }
 ) => {
@@ -37,7 +37,7 @@ const updateMyProfile = async (
 };
 
 export const userService = {
-  getAllUsers,
-  updateUserStatus,
-  updateMyProfile,
+  getAllUsersIntoDB,
+  updateUserStatusIntoDB,
+  updateMyProfileIntoDB,
 };
