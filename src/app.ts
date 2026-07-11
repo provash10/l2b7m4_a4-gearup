@@ -10,6 +10,11 @@ import {
   adminGearRoutes,
 } from "./modules/gearItem/gearItem.route";
 import { categoryRoutes } from "./modules/category/category.route";
+import {
+  rentalRoutes,
+  providerOrderRoutes,
+  adminRentalRoutes,
+} from "./modules/rental/rental.route";
 import { globalErrorHandler } from "./middlewares/globalErrorHandler";
 import { notFound } from "./middlewares/notFound";
 
@@ -36,6 +41,9 @@ app.use("/api/gear", gearRoutes);
 app.use("/api/provider/gear", providerGearRoutes);
 app.use("/api/admin/gear", adminGearRoutes);
 app.use("/api/categories", categoryRoutes);
+app.use("/api/rentals", rentalRoutes);
+app.use("/api/provider/orders", providerOrderRoutes);
+app.use("/api/admin/rentals", adminRentalRoutes);
 
 app.use(globalErrorHandler);
 app.use(notFound);

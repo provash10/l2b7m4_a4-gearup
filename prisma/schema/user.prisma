@@ -11,6 +11,7 @@ model User {
 
    gearItems    GearItem[]
    reviews      Review[]
+   rentalOrders RentalOrder[]
 
   @@map("users")
 }

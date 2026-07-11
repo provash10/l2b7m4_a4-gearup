@@ -13,9 +13,10 @@ model GearItem {
   updatedAt    DateTime    @updatedAt
 
 
-  provider     User        @relation(fields: [providerId], references: [id])
-  category     Category    @relation(fields: [categoryId], references: [id])
-  reviews      Review[]
+  provider         User              @relation(fields: [providerId], references: [id])
+  category         Category          @relation(fields: [categoryId], references: [id])
+  reviews          Review[]
+  rentalOrderItems RentalOrderItem[]
   
   @@map("gear_items")
 }
