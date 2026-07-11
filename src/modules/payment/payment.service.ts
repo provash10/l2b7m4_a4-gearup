@@ -1,7 +1,8 @@
-import { OrderStatus, PaymentMethod } from "../../../generated/prisma/enums";
+import { OrderStatus, PaymentMethod, PaymentStatus } from "../../../generated/prisma/enums";
 import { AppError } from "../../errors/AppError";
 import { prisma } from "../../lib/prisma";
-import httpStatus from "http-status"
+import httpStatus from "http-status";
+import { stripe } from "../../lib/stripe";
 
 
 const createPaymentIntentIntoDB = async (customerId: string, rentalOrderId: string, method: PaymentMethod) => {
@@ -85,8 +86,112 @@ const createPaymentIntentIntoDB = async (customerId: string, rentalOrderId: stri
   }
 };
 
+const confirmPaymentIntoDB = async (transactionId: string) => {
+  const payment = await prisma.payment.findUnique({
+    where: { transactionId },
+    include: {
+      rentalOrder: true,
+    },
+  });
+
+  if (!payment) {
+    throw new AppError(httpStatus.NOT_FOUND, "Payment transaction not found");
+  }
+
+  if (payment.status === PaymentStatus.COMPLETED) {
+    return payment;
+  }
+
+  return await prisma.$transaction(async (tx) => {
+    // Update payment status
+    const updatedPayment = await tx.payment.update({
+      where: { id: payment.id },
+      data: {
+        status: PaymentStatus.COMPLETED,
+        paidAt: new Date(),
+      },
+    });
+
+    // Update rental order status
+    await tx.rentalOrder.update({
+      where: { id: payment.rentalOrderId },
+      data: {
+        status: OrderStatus.PAID,
+      },
+    });
+
+    return updatedPayment;
+  });
+};
+
+const getUserPayments = async (userId: string, role: string) => {
+  if (role === "ADMIN") {
+    return await prisma.payment.findMany({
+      include: {
+        rentalOrder: {
+          include: {
+            customer: {
+              omit: {
+                password: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+  } else {
+    return await prisma.payment.findMany({
+      where: {
+        rentalOrder: {
+          customerId: userId,
+        },
+      },
+      include: {
+        rentalOrder: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+  }
+};
+
+const getPaymentById = async (userId: string, paymentId: string, role: string) => {
+  const payment = await prisma.payment.findUnique({
+    where: { id: paymentId },
+    include: {
+      rentalOrder: {
+        include: {
+          customer: {
+            omit: {
+              password: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  if (!payment) {
+    throw new AppError(httpStatus.NOT_FOUND, "Payment details not found");
+  }
+
+  if (role !== "ADMIN" && payment.rentalOrder.customerId !== userId) {
+    throw new AppError(httpStatus.FORBIDDEN, "You do not have permission to view this payment");
+  }
+
+  return payment;
+};
+
 
 
 export const paymentService = {
   createPaymentIntentIntoDB,
+  confirmPaymentIntoDB,
+  getUserPayments,
+  getPaymentById
+  
 };

@@ -22,7 +22,54 @@ const createPayment = catchAsync(
     });
   }
 );
+const confirmPayment = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { transactionId } = req.body;
+    const result = await paymentService.confirmPaymentIntoDB(transactionId);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Payment confirmed and verified successfully",
+      data: result,
+    });
+  }
+);
+
+const getUserPayments = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.user?.id;
+    const role = req.user?.role;
+    const result = await paymentService.getUserPayments(userId as string, role as string);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Payment history retrieved successfully",
+      data: result,
+    });
+  }
+);
+
+const getPaymentById = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.user?.id;
+    const role = req.user?.role;
+    const { id } = req.params;
+    const result = await paymentService.getPaymentById(userId as string, id as string, role as string);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Payment details retrieved successfully",
+      data: result,
+    });
+  }
+);
 
 export const paymentController = {
-    createPayment
+    createPayment,
+    confirmPayment,
+    getUserPayments,
+    getPaymentById
 }
