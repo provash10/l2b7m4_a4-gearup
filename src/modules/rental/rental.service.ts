@@ -10,7 +10,7 @@ const createRentalIntoDB = async (customerId: string, payload: ICreateRentalInpu
   const start = new Date(startDate);
   const end = new Date(endDate);
   const diffTime = end.getTime() - start.getTime();
-  let days = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  let days = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); //24 hours
   if (days <= 0) {
     days = 1;
   }

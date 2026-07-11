@@ -17,6 +17,7 @@ import {
 } from "./modules/rental/rental.route";
 import { globalErrorHandler } from "./middlewares/globalErrorHandler";
 import { notFound } from "./middlewares/notFound";
+import { paymentRoutes } from "./modules/payment/payment.route";
 
 const app: Application = express();
 
@@ -44,6 +45,7 @@ app.use("/api/categories", categoryRoutes);
 app.use("/api/rentals", rentalRoutes);
 app.use("/api/provider/orders", providerOrderRoutes);
 app.use("/api/admin/rentals", adminRentalRoutes);
+app.use("/api/payments", paymentRoutes);
 
 app.use(globalErrorHandler);
 app.use(notFound);
