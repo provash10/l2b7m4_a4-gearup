@@ -1,0 +1,15 @@
+{
+    "email": "anu_customer2026@gmail.com",
+    "password": "GearUp@100"
+}
+
+
+{
+    "success": true,
+    "statusCode": 200,
+    "message": "User Logged In Successfully",
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk3ZGMzY2ZiLTMxM2QtNDE4Mi1hMGZiLWRlMWExOTFmOTg3MyIsIm5hbWUiOiJBbnUgQ3VzdG9tZXIiLCJlbWFpbCI6ImFudV9jdXN0b21lcjIwMjZAZ21haWwuY29tIiwicm9sZSI6IkNVU1RPTUVSIiwiaWF0IjoxNzgzNzkxODAzLCJleHAiOjE3ODM4NzgyMDN9.aMtvNyx5vy80GU-oDJ5P6PVer3o5PRTyHdd39Wv3iYg",
+        "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk3ZGMzY2ZiLTMxM2QtNDE4Mi1hMGZiLWRlMWExOTFmOTg3MyIsIm5hbWUiOiJBbnUgQ3VzdG9tZXIiLCJlbWFpbCI6ImFudV9jdXN0b21lcjIwMjZAZ21haWwuY29tIiwicm9sZSI6IkNVU1RPTUVSIiwiaWF0IjoxNzgzNzkxODAzLCJleHAiOjE3ODQzOTY2MDN9.TaU8Rcbh3mfk3LbaOtmpssIhzL5aTqQeZ0mUsJV2fTs"
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "email": "koli_provider2026@gmail.com",
+    "password": "GearUp@100"
+}
+
+{
+    "success": true,
+    "statusCode": 200,
+    "message": "User Logged In Successfully",
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjBjNzBkNDdmLTJhZDUtNGM2MC1hNTNmLTg2MzE2NWUyM2Q3YSIsIm5hbWUiOiJLb2xpIFByb3ZpZGVyIiwiZW1haWwiOiJrb2xpX3Byb3ZpZGVyMjAyNkBnbWFpbC5jb20iLCJyb2xlIjoiUFJPVklERVIiLCJpYXQiOjE3ODM3OTU2OTQsImV4cCI6MTc4Mzg4MjA5NH0.UDs4-r25b4OoBO0K6lc6t6jWmIzdNPUHVgpFGgSam0w",
+        "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjBjNzBkNDdmLTJhZDUtNGM2MC1hNTNmLTg2MzE2NWUyM2Q3YSIsIm5hbWUiOiJLb2xpIFByb3ZpZGVyIiwiZW1haWwiOiJrb2xpX3Byb3ZpZGVyMjAyNkBnbWFpbC5jb20iLCJyb2xlIjoiUFJPVklERVIiLCJpYXQiOjE3ODM3OTU2OTUsImV4cCI6MTc4NDQwMDQ5NX0.xfQu-Y9X69I_JlUeQZzTq78pp1fAj3oNULLkL4egBnY"
+    }
+}
