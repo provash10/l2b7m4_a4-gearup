@@ -18,6 +18,7 @@ import {
 import { globalErrorHandler } from "./middlewares/globalErrorHandler";
 import { notFound } from "./middlewares/notFound";
 import { paymentRoutes } from "./modules/payment/payment.route";
+import { reviewRoutes } from "./modules/review/review.route";
 import { stripe } from "./lib/stripe";
 import { paymentService } from "./modules/payment/payment.service";
 
@@ -115,6 +116,7 @@ app.use("/api/rentals", rentalRoutes);
 app.use("/api/provider/orders", providerOrderRoutes);
 app.use("/api/admin/rentals", adminRentalRoutes);
 app.use("/api/payments", paymentRoutes);
+app.use("/api/reviews", reviewRoutes);
 
 app.use(globalErrorHandler);
 app.use(notFound);

@@ -2,12 +2,9 @@ import { prisma } from "../../lib/prisma";
 import { AppError } from "../../errors/AppError";
 import httpStatus from "http-status";
 import { OrderStatus } from "../../../generated/prisma/enums";
+import { ICreateReviewInput } from "./review.interface";
 
-interface ICreateReviewInput {
-  gearItemId: string;
-  rating: number;
-  comment: string;
-}
+
 
 const createReviewIntoDB = async (customerId: string, payload: ICreateReviewInput) => {
   const { gearItemId, rating, comment } = payload;
